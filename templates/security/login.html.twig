@@ -1,7 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Log in!{% endblock %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        html{
+            width: 100%;
+            height: 100%;
+        }
+        body{
+            background-color: lightgrey;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+    </style>
+{% endblock %}
 {% block body %}
 <form method="post">
     {% if error %}
@@ -35,7 +51,7 @@
         </div>
     #}
 
-    <button class="btn btn-lg btn-primary" type="submit">
+    <button class="btn btn-lg btn-primary m-1" type="submit">
         Sign in
     </button>
 </form>
