@@ -7,6 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use function Symfony\Component\String\u;
 
 class AppFixtures extends Fixture
 {
@@ -43,6 +44,19 @@ class AppFixtures extends Fixture
         ;
 
         $manager->persist($admin);
-        $manager->flush();
+
+        for($i =0; $i <= 20;$i++) {
+            $usergen = new User();
+            $usergen
+                ->setEmail($faker->email)
+                ->setPassword($this->encoder->encodePassword($usergen,"user"))
+                ->setSpeudo($faker->firstName)
+                ->setLastname($faker->lastName)
+                ->setFirstname($faker->firstName)
+                ->setRoles(['ROLE_USER'])
+            ;
+            $manager->persist($usergen);
+        }
+            $manager->flush();
     }
 }
