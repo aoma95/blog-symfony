@@ -20,6 +20,8 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Email()
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
@@ -30,6 +32,7 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @Assert\NotBlank()
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
