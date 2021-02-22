@@ -17,9 +17,9 @@ class RegisterFromType extends AbstractType
         $builder
             ->add('email', EmailType::class)
             ->add('password', PasswordType::class)
+            ->add('pseudo', TextType::class)
             ->add('firstname', TextType::class)
             ->add('lastname',TextType::class)
-            ->add('speudo',TextType::class)
         ;
     }
 
