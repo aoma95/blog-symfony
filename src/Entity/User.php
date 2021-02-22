@@ -24,7 +24,7 @@ class User implements UserInterface
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
@@ -53,17 +53,29 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $speudo;
+    private $pseudo;
 
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="user")
      */
     private $articles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author")
+     */
+    private $article;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Commentary::class, mappedBy="author")
+     */
+    private $commentaries;
+
     public function __construct()
     {
         $this->setRoles(["ROLE_USER"]);
         $this->articles = new ArrayCollection();
+        $this->article = new ArrayCollection();
+        $this->commentaries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -171,14 +183,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getSpeudo(): ?string
+    public function getPseudo(): ?string
     {
-        return $this->speudo;
+        return $this->pseudo;
     }
 
-    public function setSpeudo(?string $speudo): self
+    public function setPseudo(?string $pseudo): self
     {
-        $this->speudo = $speudo;
+        $this->pseudo = $pseudo;
 
         return $this;
     }
@@ -195,7 +207,7 @@ class User implements UserInterface
     {
         if (!$this->articles->contains($article)) {
             $this->articles[] = $article;
-            $article->setUser($this);
+            $article->setAuthor($this);
         }
 
         return $this;
@@ -205,8 +217,46 @@ class User implements UserInterface
     {
         if ($this->articles->removeElement($article)) {
             // set the owning side to null (unless already changed)
-            if ($article->getUser() === $this) {
-                $article->setUser(null);
+            if ($article->getAuthor() === $this) {
+                $article->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Article[]
+     */
+    public function getArticle(): Collection
+    {
+        return $this->article;
+    }
+
+    /**
+     * @return Collection|Commentary[]
+     */
+    public function getCommentaries(): Collection
+    {
+        return $this->commentaries;
+    }
+
+    public function addCommentary(Commentary $commentary): self
+    {
+        if (!$this->commentaries->contains($commentary)) {
+            $this->commentaries[] = $commentary;
+            $commentary->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentary(Commentary $commentary): self
+    {
+        if ($this->commentaries->removeElement($commentary)) {
+            // set the owning side to null (unless already changed)
+            if ($commentary->getAuthor() === $this) {
+                $commentary->setAuthor(null);
             }
         }
 
