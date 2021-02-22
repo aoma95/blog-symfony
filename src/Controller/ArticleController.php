@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/", name="article")
+     * @Route("/", name="homepage")
      */
     public function index(): Response
     {
