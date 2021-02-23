@@ -23,7 +23,6 @@ class UserController extends AbstractController
      * @return Response
      */
 
-
     public function index(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new User();
@@ -50,13 +49,21 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/profile", name="profile")
-     * @param User $user
+     * @Route("/profile", name="profile", methods={"GET"})
      * @return Response
      */
-    public function show() : Response
+    public function profile() : Response
     {
-        return $this->render('user/profile.html.twig');
+        return $this->render('user/profileHomepage.html.twig');
+    }
+
+    /**
+     * @Route("/profile/info", name="profile_info", methods={"GET"})
+     * @return Response
+     */
+    public function profileInfo() : Response
+    {
+        return $this->render('user/profileInfo.html.twig');
     }
 
 }
