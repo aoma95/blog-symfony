@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegisterFromType;
+use App\Form\ProfileInfoFormType;
+use App\Form\RegisterFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserController extends AbstractController
 {
@@ -26,7 +28,7 @@ class UserController extends AbstractController
     public function index(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new User();
-        $form = $this->createForm(RegisterFromType::class,$user);
+        $form = $this->createForm(RegisterFormType::class,$user);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -59,11 +61,15 @@ class UserController extends AbstractController
 
     /**
      * @Route("/profile/info", name="profile_info", methods={"GET"})
+     * @param UserInterface $user
      * @return Response
      */
-    public function profileInfo() : Response
+    public function profileInfo(UserInterface $user) : Response
     {
-        return $this->render('user/profileInfo.html.twig');
+        $form = $this->createForm(ProfileInfoFormType::class,$user);
+        return $this->render('user/profileInfo.html.twig',[
+            'form' => $form->createView(),
+        ]);
     }
 
 }

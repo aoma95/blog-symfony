@@ -9,7 +9,10 @@
                 {% include("partials/navProfile.html.twig") %}
             </div>
             <div class="col-8">
-                <h1>Salut</h1>
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit"  class="btn btn-primary">Mise à jour</button>
+                {{ form_end(form) }}
             </div>
         </div>
 
