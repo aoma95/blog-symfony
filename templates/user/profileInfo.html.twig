@@ -4,6 +4,11 @@
 
 {% block body %}
     <div class="container">
+        {% for message in app.flashes('message') %}
+        <div class="col-xs4">
+            <div class="p-3 my-2 alert-success">{{ message }}</div>
+        </div>
+        {% endfor %}
         <div class="row">
             <div class="col-lg-2 col-md-4 col-sm-12">
                 {% include("partials/navProfile.html.twig") %}

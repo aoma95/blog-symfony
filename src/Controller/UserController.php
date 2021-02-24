@@ -60,13 +60,26 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/profile/info", name="profile_info", methods={"GET"})
-     * @param UserInterface $user
+     * @Route("/profile/info", name="profile_info", methods={"GET","POST"})
+     * @param User $user
+     * @param Request $request
      * @return Response
      */
-    public function profileInfo(UserInterface $user) : Response
+    public function profileInfo(Request $request) : Response
     {
+        $user = $this->getUser();
         $form = $this->createForm(ProfileInfoFormType::class,$user);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash("message","Utilisateur mise à jour");
+            return $this->redirectToRoute('profile_info');
+        }
+
         return $this->render('user/profileInfo.html.twig',[
             'form' => $form->createView(),
         ]);
