@@ -78,7 +78,7 @@ class AppFixtures extends Fixture
                 ->setContent($faker->text)
                 ->setTitle($faker->title)
                 ->setCreatedAt($faker->dateTime)
-                ->setPicture($faker->url)
+                ->setPicture(random_int(1,3).".jpg")
                 ->setUpdatedAt($faker->dateTime)
                 ->setSummarize($faker->text(50))
                 ->setAuthor($arrayEntityUser[random_int(0,sizeof($arrayEntityUser)-1)])
