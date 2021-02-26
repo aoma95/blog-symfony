@@ -4,7 +4,8 @@
 
 {% block body %}
         <div class="container">
-                <div class="card m-2" style="width: auto;">
+                <a class="btn btn-outline-primary my-2 my-sm-0" href="{{ path("homepage") }}">Retour acueil</a>
+                <div class="card p-2" style="width: auto;">
                         <ul class="list-group list-group-flush">
                                 <div class="row">
                                         <div class="col-sm">
@@ -19,7 +20,7 @@
                                 </div>
                                 <div class="row">
                                         <div class="col-sm">
-                                                <h1>{{ article.title }}</h1>
+                                                <h1 class="text-center">{{ article.title }}</h1>
                                         </div>
                                 </div>
                                 <div class="row">
@@ -29,7 +30,7 @@
                                 </div>
                                 <div class="row">
                                         <div class="col-sm">
-                                                <img src="{{ asset('upload/'~article.picture) }}" alt="image article">
+                                                <img src="{{ asset('upload/'~article.picture) }}" class="img-fluid" style="width: 100%" alt="image article">
                                         </div>
                                 </div>
                                 <div class="row">

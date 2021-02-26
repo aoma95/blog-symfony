@@ -43,36 +43,41 @@ class ArticleController extends AbstractController
      */
     public function createArticle(Request $request): Response
     {
-        $article = new Article();
-        $user = $this->getUser();
-        $form = $this->createForm(ArticleFormType::class,$article);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if($this->getUser()){
+            $article = new Article();
+            $user = $this->getUser();
+            $form = $this->createForm(ArticleFormType::class,$article);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
 
-            $image = $form->get('image')->getData();
-            if($image){
-                $file = md5(uniqid()). '.' . $image->guessExtension();
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $file
-                );
-                $article
-                    ->setPicture($file)
+                $image = $form->get('image')->getData();
+                if($image){
+                    $file = md5(uniqid()). '.' . $image->guessExtension();
+                    $image->move(
+                        $this->getParameter('images_directory'),
+                        $file
+                    );
+                    $article
+                        ->setPicture($file)
                     ;
+                }
+                $article
+                    ->setAuthor($user)
+                    ->setCreatedAt(new \DateTime('now'))
+                    ->setUpdatedAt(new \DateTime('now'))
+                ;
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($article);
+                $em->flush();
             }
-            $article
-                ->setAuthor($user)
-                ->setCreatedAt(new \DateTime('now'))
-                ->setUpdatedAt(new \DateTime('now'))
-            ;
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($article);
-            $em->flush();
+            return $this->render('article/articleForm.html.twig',[
+                'form' => $form->createView(),
+            ]);
         }
-
-        return $this->render('article/articleForm.html.twig',[
-            'form' => $form->createView(),
-        ]);
+        else{
+            return $this->redirectToRoute('app_login');
+        }
     }
 }

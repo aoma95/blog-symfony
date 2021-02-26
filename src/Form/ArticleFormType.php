@@ -34,7 +34,8 @@ class ArticleFormType extends AbstractType
                 'label'=>false,
                 'multiple'=>false,
                 'mapped'=> false,
-                'required'=> true
+                'required'=> true,
+                'attr'=> ["custom-file-input"]
             ])
         ;
 //            ->add('category')
