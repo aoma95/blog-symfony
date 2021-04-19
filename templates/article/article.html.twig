@@ -56,7 +56,17 @@
                                 </div>
                         </ul>
                 </div>
+                {% if app.user %}
+                        <div class="container">
+                                <h1>Créer un commentaire</h1>
+                                {{ form_start(form) }}
+                                {{ form_widget(form) }}
+                                <button type="submit"  class="btn btn-primary">Envoyer</button>
+                                {{ form_end(form) }}
+                        </div>
+                {% else %}
+                        <p>Se connecter pour laisser un commentaire</p>
+                {% endif %}
         </div>
-
 
 {% endblock %}

@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\Category;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +22,15 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public  function findAllArticle(): array
+    {
+        return $this->createQueryBuilder("a")
+            ->innerJoin(User::class,"u",Join::WITH,"a.author = u.id")
+            ->innerJoin(Category::class,"c",Join::WITH,"c.id = a.category")
+            ->orderBy("a.createdAt","DESC")
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */
