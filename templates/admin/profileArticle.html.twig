@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-sm-12">
+                {% include("partials/navProfile.html.twig") %}
+            </div>
+            <div class="col-8">
+                {% for article in articles %}
+                <div class="card p-2" style="width: auto;">
+                    <ul class="list-group list-group-flush">
+                        <div class="row">
+                            <div class="col-sm">
+                                Auteur : {{ article.author.pseudo }}
+                            </div>
+                            <div class="col-sm">
+                                Date : {{ article.createdAt|date }}
+                            </div>
+                            <div class="col-sm">
+                                Catégorie : {{ article.category.name }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <h1 class="text-center">{{ article.title }}</h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <h2>{{ article.summarize }}</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <img src="{{ asset('upload/'~article.picture) }}" class="img-fluid" style="width: 100%" alt="image article">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <p>{{ article.content }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                Partage
+                            </div>
+                            <div class="col-sm">
+                                Like
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                Réseau
+                            </div>
+                            <div class="col-sm">
+                                Tag
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

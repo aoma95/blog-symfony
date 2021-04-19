@@ -107,4 +107,19 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
     }
+
+    /**
+     * @Route("/article/{article}", name="article" ,methods={"DELETE"})
+     * @IsGranted ("ROLE_ADMIN")
+     * @param Article $article
+     * @param Request $request
+     * @return Response
+     */
+    public function delete(Article $article, Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($article);
+        $em->flush();
+        return $this->render('article/article.html.twig');
+    }
 }

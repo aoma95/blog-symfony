@@ -4,7 +4,12 @@
 {#    <button class="btn btn-outline-primary my-2"></button>#}
     <a class="btn btn-outline-primary my-2" href="{{ path('profile_info') }}">Informations personnelles</a></button>
     <button class="btn btn-outline-primary my-2">Mot de passe</button>
+    {% if not is_granted('ROLE_ADMIN') %}
     <button class="btn btn-outline-primary my-2">Articles aimés</button>
     <button class="btn btn-outline-primary my-2">Articles partagés</button>
     <button class="btn btn-outline-primary my-2">Articles commentés</button>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-outline-primary my-2" href="{{ path('profile_article') }}">Tout les articles</a></button>
+    {% endif %}
 </div>

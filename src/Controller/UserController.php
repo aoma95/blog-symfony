@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\User;
 use App\Form\ProfileInfoFormType;
 use App\Form\RegisterFormType;
+use App\Repository\ArticleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,7 +64,6 @@ class UserController extends AbstractController
 
     /**
      * @Route("/profile/info", name="profile_info", methods={"GET","POST"})
-     * @param User $user
      * @param Request $request
      * @return Response
      */
@@ -82,6 +84,20 @@ class UserController extends AbstractController
 
         return $this->render('user/profileInfo.html.twig',[
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/profile/article", name="profile_article", methods={"GET"})
+     * @IsGranted ("ROLE_ADMIN")
+     * @param ArticleRepository $articleRepository
+     * @return Response
+     */
+    public function profileArticle(ArticleRepository $articleRepository) : Response
+    {
+        $articles = $articleRepository->findAll();
+        return $this->render('admin/profileArticle.html.twig',[
+            'articles' => $articles,
         ]);
     }
 
