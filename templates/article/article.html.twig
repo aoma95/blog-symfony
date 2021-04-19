@@ -56,6 +56,15 @@
                                 </div>
                         </ul>
                 </div>
+                <p>Commentaire</p>
+                {%for comment in article.commentaries%}
+                <div class="card p-2 m-2" style="width: auto;">
+                        <p>Auteur : {{ comment.author.pseudo }}</p>
+                        <p>{{ comment.content }}</p>
+
+                </div>
+                {% endfor %}
+
                 {% if app.user %}
                         <div class="container">
                                 <h1>Créer un commentaire</h1>
